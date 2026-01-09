@@ -6,13 +6,13 @@ public class Buch {
     private String autor;
     private String fach;
     private String verlag;
-    private int isbn;
+    private long isbn;
     private String buchart;
     private boolean vorhanden;
     private String leihfrist;
 
     // Konstruktor um Objekte "Buch" zu erstellen
-    public Buch(String name, String autor, String fach, String verlag, String buchart, int isbn, boolean vorhanden, String leihfrist) {
+    public Buch(String name, String autor, String fach, String verlag, String buchart, long isbn, boolean vorhanden, String leihfrist) {
         this.name = name;
         this.autor = autor;
         this.fach = fach;
@@ -52,7 +52,7 @@ public String getVerlag() {
 public String getFach() {
     return fach;
 }
-public int getIsbn() {
+public long getIsbn() {
     return isbn;
 }
 public String getBuchart() {

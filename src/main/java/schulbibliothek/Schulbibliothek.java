@@ -29,10 +29,13 @@ public class Schulbibliothek extends JFrame {
     private JButton filterButton;
     private JLabel leihfristLabel;
     private JTextField leihfristTextField;
+    private JList liste;
     private ArrayList<Buch> buch = new ArrayList<>();
+    DefaultListModel<String> myList = new DefaultListModel<>();
 
 
     public Schulbibliothek() {
+        liste.setModel(myList);
         speicherButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -55,6 +58,19 @@ public class Schulbibliothek extends JFrame {
 
             }
         });
+        ausgebenButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ausgeben();
+            }
+        });
+
+        filterButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                filtern();
+            }
+        });
     }
     public void speichern() {
             //Werte aus den TextFields,der ComboBox und der CheckBox holen und in diesen Variablen speichern
@@ -62,7 +78,7 @@ public class Schulbibliothek extends JFrame {
             String autor = autorTextField.getText();
             String fach = fachTextField.getText();
             String verlag = verlagTextField.getText();
-            int isbn = Integer.parseInt(isbnTextField.getText());
+            long isbn = Long.parseLong(isbnTextField.getText());
             String buchart = buchartComboBox.getSelectedItem().toString();
             boolean vorhanden = vorhandenCheckBox.isSelected();
             String leihfrist;
@@ -88,6 +104,27 @@ public class Schulbibliothek extends JFrame {
             buchartComboBox.setSelectedIndex(0);
             vorhandenCheckBox.setSelected(false);
             leihfristTextField.setText("");
+
+    }
+    // Methode ausgeben erstellen und die angegebenen Bücher in der JList anzeigen
+    public void ausgeben() {
+        myList.clear();
+        for(Buch c : buch) {
+            myList.addElement(c.toString());
+        }
+    }
+    /* Bei Methode filtern kann man genaue Buchart wählen und die in der JList anzeigen.
+    Wenn ALLE ausgewählt wird, werden alle Bücher angezeigt */
+    public void filtern() {
+        String filtern = filterComboBox.getSelectedItem().toString();
+        myList.clear();
+        for(Buch d : buch) {
+            if (filtern.equals("Alle") || d.getBuchart().equals(filtern)) {
+                myList.addElement(d.toString());
+            }
+
+
+        }
 
     }
 

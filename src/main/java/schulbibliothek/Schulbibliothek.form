@@ -148,9 +148,11 @@
         <properties/>
         <border type="none"/>
         <children>
-          <component id="e9a1d" class="javax.swing.JTextArea" binding="listeTextArea">
+          <component id="b403f" class="javax.swing.JList" binding="liste">
             <constraints/>
-            <properties/>
+            <properties>
+              <model/>
+            </properties>
           </component>
         </children>
       </scrollpane>
@@ -164,6 +166,7 @@
             <item value="Hardcover"/>
             <item value="Broschur"/>
             <item value="E-Book"/>
+            <item value="Alle"/>
           </model>
         </properties>
       </component>
