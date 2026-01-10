@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class Schulbibliothek extends JFrame {
     private JPanel hauptPanel;
     private JLabel nameLabel;
-    private JTextField nameTextField;
+    private JTextField buchnameTextField;
     private JLabel autorLabel;
     private JTextField autorTextField;
     private JLabel fachLabel;
@@ -35,7 +35,12 @@ public class Schulbibliothek extends JFrame {
 
 
     public Schulbibliothek() {
+
+        //Damit leihfristTextField schon bei Start den passenden Wert zur ComboBox hat
+        leihfristTextField.setText("4 Wochen");
+
         liste.setModel(myList);
+
         speicherButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -73,14 +78,44 @@ public class Schulbibliothek extends JFrame {
         });
     }
     public void speichern() {
-            //Werte aus den TextFields,der ComboBox und der CheckBox holen und in diesen Variablen speichern
-            String name = nameTextField.getText();
-            String autor = autorTextField.getText();
+            /*Werte aus den TextFields,der ComboBox und der CheckBox holen und in diesen Variablen speichern
+            mit Exception Handeling für eine Benutzerfreundliche Oberfläche
+             */
+        try {
+            //Exception sodass die Felder nicht leer sein dürfen
+            if (buchnameTextField.getText().trim().isEmpty() ||
+                    autorTextField.getText().trim().isEmpty() ||
+                    fachTextField.getText().trim().isEmpty() ||
+                    verlagTextField.getText().trim().isEmpty() ||
+                    isbnTextField.getText().trim().isEmpty()) {
+                throw new IllegalArgumentException("Leer");
+            }
+
+            String buchname = buchnameTextField.getText();
+            String autor = autorTextField.getText().trim();
+
+            //Exception damit der Autorname nur aus Buchstaben besteht, Vor- und Nachname aber möglich sind
+            if (!autor.matches("[a-zA-ZäöüÄÖÜß]{2,}(\\s[a-zA-ZäöüÄÖÜß]{2,})*")) { //Regex mithilfe von KI
+                throw new IllegalArgumentException("Autor");
+            }
+
             String fach = fachTextField.getText();
             String verlag = verlagTextField.getText();
+
+            //Exception um nur Buchstaben zu erlauben
+            if (!verlag.matches("[a-zA-ZäöüÄÖÜß]+")) { //Regex mithilfe von KI
+                throw new IllegalArgumentException();
+            }
+
             long isbn = Long.parseLong(isbnTextField.getText());
+            //Exception dass die isbn immer 13 Zahlen haben muss (nur Zahlen sind in NumberFormatException mitinbegriffen)
+            if (isbnTextField.getText().length() != 13) {
+                throw new NumberFormatException();
+            }
+
             String buchart = buchartComboBox.getSelectedItem().toString();
             boolean vorhanden = vorhandenCheckBox.isSelected();
+
             String leihfrist;
             if (buchart.equals("Taschenbuch")) {
                 leihfrist = "4 Wochen";
@@ -92,18 +127,32 @@ public class Schulbibliothek extends JFrame {
                 leihfrist = "unbegrenzt";
 
             //Objekt erstellen und in der ArrayList speichern
-            Buch b = new Buch(name,autor,fach,verlag,buchart,isbn,vorhanden,leihfrist);
+            Buch b = new Buch(buchname, autor, fach, verlag, buchart, isbn, vorhanden, leihfrist);
             buch.add(b);
 
-            //Nach dem speichern die Textfelder leeren um erneut reinschreiben zu können
-            nameTextField.setText("");
+            //Nach dem speichern die Textfelder leeren(bzw leihfrist wieder auf 4 Wochen setzten) um erneut reinschreiben zu können
+            buchnameTextField.setText("");
             autorTextField.setText("");
             fachTextField.setText("");
             verlagTextField.setText("");
             isbnTextField.setText("");
             buchartComboBox.setSelectedIndex(0);
             vorhandenCheckBox.setSelected(false);
-            leihfristTextField.setText("");
+            leihfristTextField.setText("4 Wochen");
+
+        //catch Block für die geworfenen Exceptions um Fenster mit der jeweiligen Fehlermeldung erscheinen zu lassen
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Die ISBN darf nur aus genau 13 Zahlen bestehen");
+        } catch (IllegalArgumentException e) {
+            if ("Leer".equals(e.getMessage())) {
+                JOptionPane.showMessageDialog(null, "Die Felder dürfen nicht leer sein");
+            } else if ("Autor".equals(e.getMessage())) {
+                JOptionPane.showMessageDialog(null, "Der Name des Autors darf nur aus Buchstaben bestehen");
+            } else {
+                JOptionPane.showMessageDialog(null,"Ungültiger Verlag! Nur Buchstaben eingeben!");
+            }
+        }
+
 
     }
     // Methode ausgeben erstellen und die angegebenen Bücher in der JList anzeigen

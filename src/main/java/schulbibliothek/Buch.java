@@ -2,7 +2,7 @@ package schulbibliothek;
 
 public class Buch {
     // Variablen für Bücher
-    private String name;
+    private String buchname;
     private String autor;
     private String fach;
     private String verlag;
@@ -12,8 +12,8 @@ public class Buch {
     private String leihfrist;
 
     // Konstruktor um Objekte "Buch" zu erstellen
-    public Buch(String name, String autor, String fach, String verlag, String buchart, long isbn, boolean vorhanden, String leihfrist) {
-        this.name = name;
+    public Buch(String buchname, String autor, String fach, String verlag, String buchart, long isbn, boolean vorhanden, String leihfrist) {
+        this.buchname = buchname;
         this.autor = autor;
         this.fach = fach;
         this.verlag = verlag;
@@ -25,7 +25,7 @@ public class Buch {
     // toString Methode, um die Bücher in der Klasse Bibliothek in der JList lesbar auszugeben
     public String toString() {
         return "<html>"
-                + "Name: " + name + "<br>"
+                + "Name: " + buchname + "<br>"
                 + "Autor: " + autor + "<br>"
                 + "Verlag: " + verlag + "<br>"
                 + "Fach: " + fach + "<br>"
@@ -40,8 +40,8 @@ public class Buch {
 }
 
 // Getter Methode ist Notwendig, damit man in der Klasse Bibliothek die Objekte erstellen kann
-public String getName() {
-    return name;
+public String getBuchname() {
+    return buchname;
 }
 public String getAutor() {
     return autor;
