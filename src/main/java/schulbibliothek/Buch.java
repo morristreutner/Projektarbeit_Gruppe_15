@@ -31,12 +31,20 @@ public class Buch {
                 + "Fach: " + fach + "<br>"
                 + "ISBN: " + isbn + "<br>"
                 + "Buchart: " + buchart + "<br>"
-                + "Vorhanden: " + (vorhanden ? "Ja" : "Nein") + "<br>"
+                + "Vorhanden: " + ausleihbar() + "<br>"
                 + "Leihfrist: " + leihfrist + "<br>"
                 + "------------------------------"
                 + "</html>";
 
 
+}
+    //Methode für den JUnit Test und Ausgabe in der toString Methode darüber
+    public String ausleihbar() {
+        if (vorhanden) {
+            return "Das Buch ist vorhanden.";
+        } else {
+            return "Das Buch ist nicht vorhanden.";
+        }
 }
 
 // Getter Methode ist Notwendig, damit man in der Klasse Bibliothek die Objekte erstellen kann

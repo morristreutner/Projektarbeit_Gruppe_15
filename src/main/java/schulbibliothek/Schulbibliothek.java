@@ -182,7 +182,7 @@ public class Schulbibliothek extends JFrame {
     //Main zum Fenster ausführen über FormMain generiert
     public static void main(String[] args) {
         JFrame frame = new JFrame("Schulbibliothek");
-        frame.setSize(550, 330);
+        frame.setSize(600, 350);
         frame.setContentPane(new Schulbibliothek().hauptPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
