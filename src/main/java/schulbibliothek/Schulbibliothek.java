@@ -205,7 +205,10 @@ public class Schulbibliothek extends JFrame {
         myList.addElement(hardcover.toString());
         myList.addElement(eBook.toString());
 
-
+        // Die drei Objekte wurden zu der ArrayList hinzugefügt
+        buch.add(taschenbuch);
+        buch.add(hardcover);
+        buch.add(eBook);
     }
 }
 
