@@ -41,6 +41,9 @@ public class Schulbibliothek extends JFrame {
 
         liste.setModel(myList);
 
+        // Methodenaufruf für die Beispieldaten
+        initObjekte();
+
         speicherButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -172,7 +175,6 @@ public class Schulbibliothek extends JFrame {
                 myList.addElement(d.toString());
             }
 
-
         }
 
     }
@@ -180,10 +182,30 @@ public class Schulbibliothek extends JFrame {
     //Main zum Fenster ausführen über FormMain generiert
     public static void main(String[] args) {
         JFrame frame = new JFrame("Schulbibliothek");
+        frame.setSize(550, 330);
         frame.setContentPane(new Schulbibliothek().hauptPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
         frame.setVisible(true);
+
+    }
+
+    // Methode die 3 Objekte an der JUnit List hinzufügt und diese direkt am anfang anzeigt
+    public void initObjekte() {
+        Buch taschenbuch = new Buch("Statistik 1", "Luis Schmidt", "Mathematik",
+                "Lügge", "Taschenbuch", 9783157783629L, true, "4 Wochen");
+
+        Buch hardcover = new Buch("Business Result", "Rebecca Turner", "Englisch",
+                "Oxford", "Hardcover", 9783194738965L, false, "3 Wochen");
+
+        Buch eBook = new Buch("BWL 2", "Franziskus Eberhardt", "Wirtschaft",
+                "Carlsen", "E-Book", 9783225743366L, true, "unbegrenzt");
+
+        // Dadurch sind die Objekte beim Start direkt verfügbar
+        myList.addElement(taschenbuch.toString());
+        myList.addElement(hardcover.toString());
+        myList.addElement(eBook.toString());
+
+
     }
 }
 
