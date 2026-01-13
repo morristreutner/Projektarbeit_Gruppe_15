@@ -30,6 +30,8 @@ public class Schulbibliothek extends JFrame {
     private JLabel leihfristLabel;
     private JTextField leihfristTextField;
     private JList liste;
+    private JLabel wunschlisteLabel;
+    private JLabel kriterienLabel;
     private ArrayList<Buch> buch = new ArrayList<>();
     DefaultListModel<String> myList = new DefaultListModel<>();
 
@@ -201,10 +203,6 @@ public class Schulbibliothek extends JFrame {
         Buch eBook = new Buch("BWL 2", "Franziskus Eberhardt", "Wirtschaft",
                 "Carlsen", "E-Book", 9783225743366L, true, "unbegrenzt");
 
-        // Dadurch sind die Objekte beim Start direkt verfügbar
-        myList.addElement(taschenbuch.toString());
-        myList.addElement(hardcover.toString());
-        myList.addElement(eBook.toString());
 
         // Die drei Objekte wurden zu der ArrayList hinzugefügt
         buch.add(taschenbuch);
