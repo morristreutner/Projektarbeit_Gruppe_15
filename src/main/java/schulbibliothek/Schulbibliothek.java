@@ -112,7 +112,7 @@ public class Schulbibliothek extends JFrame {
 
             long isbn = Long.parseLong(isbnTextField.getText());
             //Exception dass die isbn immer 13 Zahlen haben muss (nur Zahlen sind in NumberFormatException mitinbegriffen)
-            if (isbnTextField.getText().length() != 13) {
+            if (isbnTextField.getText().length() != 13 || !isbnTextField.getText().startsWith("978")) {
                 throw new NumberFormatException();
             }
 
@@ -145,7 +145,8 @@ public class Schulbibliothek extends JFrame {
 
         //catch Block für die geworfenen Exceptions um Fenster mit der jeweiligen Fehlermeldung erscheinen zu lassen
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Die ISBN darf nur aus genau 13 Zahlen bestehen");
+            JOptionPane.showMessageDialog(null, "Die ISBN muss mit '978' anfangen und" +
+                                                                            " darf nur aus genau 13 Zahlen bestehen");
         } catch (IllegalArgumentException e) {
             if ("Leer".equals(e.getMessage())) {
                 JOptionPane.showMessageDialog(null, "Die Felder dürfen nicht leer sein");
