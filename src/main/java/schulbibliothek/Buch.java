@@ -1,7 +1,7 @@
 package schulbibliothek;
 
 public class Buch {
-    // Variablen für Bücher
+
     private String buchname;
     private String autor;
     private String fach;
@@ -11,7 +11,7 @@ public class Buch {
     private boolean vorhanden;
     private String leihfrist;
 
-    // Konstruktor um Objekte "Buch" zu erstellen
+
     public Buch(String buchname, String autor, String fach, String verlag, String buchart, long isbn, boolean vorhanden, String leihfrist) {
         this.buchname = buchname;
         this.autor = autor;

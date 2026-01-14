@@ -32,6 +32,7 @@ public class Schulbibliothek extends JFrame {
     private JList liste;
     private JLabel wunschlisteLabel;
     private JLabel kriterienLabel;
+    private JComboBox vorhandenFilterComboBox;
     private ArrayList<Buch> buch = new ArrayList<>();
     DefaultListModel<String> myList = new DefaultListModel<>();
 
@@ -172,20 +173,35 @@ public class Schulbibliothek extends JFrame {
     Wenn ALLE ausgewählt wird, werden alle Bücher angezeigt */
     public void filtern() {
         String filtern = filterComboBox.getSelectedItem().toString();
+        String vorhadenFilter = vorhandenFilterComboBox.getSelectedItem().toString();
         myList.clear();
-        for(Buch d : buch) {
-            if (filtern.equals("Alle") || d.getBuchart().equals(filtern)) {
+
+        for (Buch d : buch) {
+
+            boolean buchartPasst = filtern.equals("Alle") || d.getBuchart().equals(filtern);
+
+            // boolean prüft was in der JList angezeigt werden soll
+            boolean statusPasst = false;
+            if (vorhadenFilter.equals("Alle")) {
+                statusPasst = true;
+            } else if (vorhadenFilter.equals("Ist vorhanden")) {
+                statusPasst = d.isVorhanden();
+            } else if (vorhadenFilter.equals("Ist nicht vorhanden")) {
+                statusPasst = !d.isVorhanden();
+            }
+
+
+            if (buchartPasst && statusPasst) {
                 myList.addElement(d.toString());
+
             }
 
         }
-
     }
 
-    //Main zum Fenster ausführen über FormMain generiert
     public static void main(String[] args) {
         JFrame frame = new JFrame("Schulbibliothek");
-        frame.setSize(600, 350);
+        frame.setSize(650, 350);
         frame.setContentPane(new Schulbibliothek().hauptPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
@@ -208,6 +224,10 @@ public class Schulbibliothek extends JFrame {
         buch.add(taschenbuch);
         buch.add(hardcover);
         buch.add(eBook);
+
+        myList.addElement(taschenbuch.toString());
+        myList.addElement(hardcover.toString());
+        myList.addElement(eBook.toString());
     }
 }
 
