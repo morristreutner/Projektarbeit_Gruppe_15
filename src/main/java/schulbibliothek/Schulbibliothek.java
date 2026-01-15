@@ -53,6 +53,7 @@ public class Schulbibliothek extends JFrame {
                 speichern();
             }
         });
+
         buchartComboBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -69,6 +70,7 @@ public class Schulbibliothek extends JFrame {
 
             }
         });
+
         ausgebenButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -83,45 +85,21 @@ public class Schulbibliothek extends JFrame {
             }
         });
     }
-    public void speichern() {
-            /*Werte aus den TextFields,der ComboBox und der CheckBox holen und in diesen Variablen speichern
-            mit Exception Handeling für eine Benutzerfreundliche Oberfläche
-             */
-        try {
-            //Exception sodass die Felder nicht leer sein dürfen
-            if (buchnameTextField.getText().trim().isEmpty() ||
-                    autorTextField.getText().trim().isEmpty() ||
-                    fachTextField.getText().trim().isEmpty() ||
-                    verlagTextField.getText().trim().isEmpty() ||
-                    isbnTextField.getText().trim().isEmpty()) {
-                throw new IllegalArgumentException("Leer");
-            }
 
+    //Methode um eingegebene Daten als Objekt in der ArrayList zu speichern
+    public void speichern() {
+
+        //Exception Handeling mit try-catch Block für eine Benutzerfreundliche Oberfläche
+        try {
+
+            //Werte aus den TextFields,der ComboBox und der CheckBox holen und in diesen Variablen speichern
             String buchname = buchnameTextField.getText();
             String autor = autorTextField.getText().trim();
-
-            //Exception damit der Autorname nur aus Buchstaben besteht, Vor- und Nachname aber möglich sind
-            if (!autor.matches("[a-zA-ZäöüÄÖÜß]{2,}(\\s[a-zA-ZäöüÄÖÜß]{2,})*")) { //Regex mithilfe von KI
-                throw new IllegalArgumentException("Autor");
-            }
-
             String fach = fachTextField.getText();
             String verlag = verlagTextField.getText();
-
-            //Exception um nur Buchstaben zu erlauben
-            if (!verlag.matches("[a-zA-ZäöüÄÖÜß]+")) { //Regex mithilfe von KI
-                throw new IllegalArgumentException();
-            }
-
             long isbn = Long.parseLong(isbnTextField.getText());
-            //Exception dass die isbn immer 13 Zahlen haben muss (nur Zahlen sind in NumberFormatException mitinbegriffen)
-            if (isbnTextField.getText().length() != 13 || !isbnTextField.getText().startsWith("978")) {
-                throw new NumberFormatException();
-            }
-
             String buchart = buchartComboBox.getSelectedItem().toString();
             boolean vorhanden = vorhandenCheckBox.isSelected();
-
             String leihfrist;
             if (buchart.equals("Taschenbuch")) {
                 leihfrist = "4 Wochen";
@@ -131,6 +109,34 @@ public class Schulbibliothek extends JFrame {
                 leihfrist = "2 Wochen";
             } else
                 leihfrist = "unbegrenzt";
+
+
+            //Abschnitt mit if-Bedingunen um Exceptions zu werfen
+
+            //Exception sodass die Felder nicht leer sein dürfen
+            if (buchnameTextField.getText().trim().isEmpty() ||
+                    autorTextField.getText().trim().isEmpty() ||
+                    fachTextField.getText().trim().isEmpty() ||
+                    verlagTextField.getText().trim().isEmpty() ||
+                    isbnTextField.getText().trim().isEmpty()) {
+                throw new IllegalArgumentException("Leer");
+            }
+
+            //Exception damit der Autorname nur aus Buchstaben besteht, Vor- und Nachname aber möglich sind
+            if (!autor.matches("[a-zA-ZäöüÄÖÜß]{2,}(\\s[a-zA-ZäöüÄÖÜß]{2,})*")) { //Regex mithilfe von KI
+                throw new IllegalArgumentException("Autor");
+            }
+
+            //Exception um nur Buchstaben zu erlauben
+            if (!verlag.matches("[a-zA-ZäöüÄÖÜß]+")) { //Regex mithilfe von KI
+                throw new IllegalArgumentException();
+            }
+
+            //Exception dass die isbn immer 13 Zahlen haben muss (nur Zahlen sind in NumberFormatException mitinbegriffen)
+            if (isbnTextField.getText().length() != 13 || !isbnTextField.getText().startsWith("978")) {
+                throw new NumberFormatException();
+            }
+
 
             //Objekt erstellen und in der ArrayList speichern
             Buch b = new Buch(buchname, autor, fach, verlag, buchart, isbn, vorhanden, leihfrist);
@@ -154,14 +160,13 @@ public class Schulbibliothek extends JFrame {
             if ("Leer".equals(e.getMessage())) {
                 JOptionPane.showMessageDialog(null, "Die Felder dürfen nicht leer sein");
             } else if ("Autor".equals(e.getMessage())) {
-                JOptionPane.showMessageDialog(null, "Der Name des Autors darf nur aus Buchstaben bestehen");
+                JOptionPane.showMessageDialog(null, "Der Name des Autors darf nur aus Buchstaben bestehen (Vor und Nachname erlaubt)");
             } else {
                 JOptionPane.showMessageDialog(null,"Ungültiger Verlag! Nur Buchstaben eingeben!");
             }
         }
-
-
     }
+
     // Methode ausgeben erstellen und die angegebenen Bücher in der JList anzeigen
     public void ausgeben() {
         myList.clear();
@@ -169,7 +174,7 @@ public class Schulbibliothek extends JFrame {
             myList.addElement(c.toString());
         }
     }
-    /* Bei Methode filtern kann man genaue Buchart wählen und die in der JList anzeigen.
+    /* Bei Methode filtern kann man genaue Buchart und ob es vorhanden ist, wählen und die in der JList anzeigen.
     Wenn ALLE ausgewählt wird, werden alle Bücher angezeigt */
     public void filtern() {
         String filtern = filterComboBox.getSelectedItem().toString();
@@ -190,12 +195,9 @@ public class Schulbibliothek extends JFrame {
                 statusPasst = !d.isVorhanden();
             }
 
-
             if (buchartPasst && statusPasst) {
                 myList.addElement(d.toString());
-
             }
-
         }
     }
 
@@ -205,7 +207,6 @@ public class Schulbibliothek extends JFrame {
         frame.setContentPane(new Schulbibliothek().hauptPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
-
     }
 
     // Methode die 3 Objekte an der JUnit List hinzufügt und diese direkt am anfang anzeigt

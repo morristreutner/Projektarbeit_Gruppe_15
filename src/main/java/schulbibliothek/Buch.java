@@ -22,6 +22,7 @@ public class Buch {
         this.vorhanden = vorhanden;
         this.leihfrist = leihfrist;
     }
+
     // toString Methode, um die Bücher in der Klasse Bibliothek in der JList lesbar auszugeben
     public String toString() {
         return "<html>"
@@ -35,9 +36,8 @@ public class Buch {
                 + "Leihfrist: " + leihfrist + "<br>"
                 + "------------------------------"
                 + "</html>";
+    }
 
-
-}
     //Methode für den JUnit Test und Ausgabe in der toString Methode darüber
     public String ausleihbar() {
         if (vorhanden) {
